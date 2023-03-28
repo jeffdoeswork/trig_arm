@@ -1,0 +1,21 @@
+#include <Servo.h>
+
+Servo servo1;
+Servo servo2;
+
+void setup() {
+  Serial.begin(9600);
+  servo1.attach(9); // Attach servo1 to pin 9
+  servo2.attach(10); // Attach servo2 to pin 10
+}
+
+void loop() {
+  if (Serial.available()) {
+    String input = Serial.readStringUntil('\n');
+    int servo1_pos = input.substring(input.indexOf("s1") + 2, input.indexOf(",")).toInt();
+    int servo2_pos = input.substring(input.indexOf("s2") + 2).toInt();
+    
+    servo1.write(servo1_pos);
+    servo2.write(servo2_pos);
+  }
+}

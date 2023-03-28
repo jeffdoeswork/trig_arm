@@ -1,13 +1,23 @@
 import math
 import matplotlib.pyplot as plt
+import serial
+import time
+
+# Add the following function to map angles to servo values
+def map_angle_to_servo(angle, min_angle, max_angle, min_value, max_value):
+    return int(((angle - min_angle) * (max_value - min_value) / (max_angle - min_angle)) + min_value)
+
+# Replace '/dev/ttyACM0' with the appropriate port for your Arduino
+arduino = serial.Serial('/dev/ttyACM0', 9600)
+time.sleep(2)  # Give time for the connection to initialize
 
 BASE_LEN = 0
 ELBOW_LEN = 20
 WRIST_LEN = 12
 
 # Target coordinates in inches
-target_x = 10
-target_y = 26
+target_x = 20
+target_y = 3
 
 # Calculate the angle between the base and the target point
 base_angle = math.atan2(target_y, target_x)
@@ -45,3 +55,17 @@ print("Base angle: ", math.degrees(base_angle))
 print("Elbow angle: ", math.degrees(elbow_angle))
 # Display the plot
 plt.show()
+
+# Convert the angles to degrees
+base_angle_deg = math.degrees(base_angle)
+elbow_angle_deg = math.degrees(elbow_angle)
+
+# Map the angles to servo values (assuming servos have a range of 0 to 180 degrees)
+servo1_value = map_angle_to_servo(base_angle_deg, 0, 180, 0, 180)
+servo2_value = map_angle_to_servo(elbow_angle_deg, 0, 180, 0, 180)
+
+# Send the servo values to the Arduino
+arduino.write(f's1{servo1_value},s2{servo2_value}\n'.encode())
+
+# Close the Arduino connection
+arduino.close()
