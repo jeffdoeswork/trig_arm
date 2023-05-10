@@ -1,0 +1,24 @@
+# .gitignore
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*~
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints
+
+# Virtual environment
+venv/
+
+# PyCharm project settings
+.idea/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# VS Code settings
+.vscode/

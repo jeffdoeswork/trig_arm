@@ -15,7 +15,7 @@ def getch():
     return ch
 
 # Replace '/dev/ttyACM0' with the appropriate port for your Arduino
-arduino = serial.Serial('/dev/ttyACM0', 9600)
+arduino = serial.Serial('/dev/ttyUSB0', 9600) #ttyUSB0
 time.sleep(2)  # Give time for the connection to initialize
 
 print("Press 'q' to quit")
